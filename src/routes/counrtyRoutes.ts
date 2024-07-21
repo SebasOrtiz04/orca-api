@@ -3,7 +3,7 @@ import {body,param} from 'express-validator'
 import { CountryController } from '../controllers/customers/CountryController'
 import { handleInputErrors } from '../middleware/validation'
 import { StateController } from '../controllers/customers/StateController'
-import { validateProjectExists } from '../middleware/country'
+import { validateProjectExists } from '../middleware/customer/country'
 
 const router = Router()
 

@@ -1,5 +1,6 @@
 import type {Request, Response,NextFunction} from 'express'
-import Country, { ICountry } from '../models/customer/Country';
+import Country, { ICountry } from '../../models/customer/Country';
+
 
 declare global {
     namespace Express{
