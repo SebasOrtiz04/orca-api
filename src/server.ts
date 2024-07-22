@@ -12,9 +12,11 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
 app.use(cors({
-    origin: ['http://localhost:3000','https://www.orcaeventos.com/'], // Permite solicitudes solo desde este origen
+    origin: '*'
 }));
+  
 
 app.use(express.json());
 
