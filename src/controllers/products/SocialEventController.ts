@@ -44,4 +44,15 @@ export class SocialEventController{
             return res.status(500).send('Error en el servidor')
         }
     }
+
+    static getAllSocialEventById = async (req:Request, res: Response) => {
+
+        try{
+            const socialEvents = await SocialEvent.find().populate('category')
+            return res.status(200).json(socialEvents)
+        }catch(error){
+            console.log(error)
+            return res.status(500).send('Error en el servidor')
+        }
+    }
 }
