@@ -1,6 +1,5 @@
 import type {Request, Response, NextFunction} from 'express'
-import SocialEvent from '../../models/products/SocialEvent'
-import { ISocialEvent } from '../../../dist/models/products/SocialEvent';
+import SocialEvent, { ISocialEvent } from '../../models/products/SocialEvent'
 
 declare global {
     namespace Express {
