@@ -16,6 +16,7 @@ router.post('/',
 
 router.get('/',CategoryController.getAllCategories)
 
+//Validar Categoría
 router.param('categoryId',validateCategory)
 
 router.get('/:categoryId',CategoryController.getCategoryById)
@@ -36,5 +37,9 @@ router.param('socialEventId',validateSocialEvent)
 router.get('/:categoryId/eventos/:socialEventId',
     SocialEventController.getAllSocialEventById
 )
+
+// router.get('/:categoryId/eventos/:socialEventId',
+//     SocialEventController.getAllSocialEventById
+// )
 
 export default router

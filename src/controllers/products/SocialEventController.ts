@@ -45,11 +45,26 @@ export class SocialEventController{
         }
     }
 
-    static getAllSocialEventById = async (req:Request, res: Response) => {
+    static getAllSocialeventsHome = async (req:Request, res: Response) => {
 
         try{
-            const socialEvents = await SocialEvent.find().populate('category')
+            const socialEvents = await SocialEvent.find()
+                .populate('category')
+                .sort({searchTimes:-1})
+                .limit(4)
             return res.status(200).json(socialEvents)
+        }catch(error){
+            console.log(error)
+            return res.status(500).send('Error en el servidor')
+        }
+    }
+
+    static getAllSocialEventById = async (req:Request, res: Response) => {
+        const {socialEvent} = req
+        try{
+            socialEvent.searchTimes = socialEvent.searchTimes +1
+            const newsocialEvent = await socialEvent.save()
+            return res.status(200).json(newsocialEvent)
         }catch(error){
             console.log(error)
             return res.status(500).send('Error en el servidor')
