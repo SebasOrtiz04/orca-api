@@ -3,7 +3,7 @@ import User from '../../models/users/User';
 import { generateToken, hashPassword } from '../../utils/auth';
 import Token from '../../models/users/Token';
 import { transporter } from '../../config/nodemailer';
-import { AuthEmail } from '../../emails/authEmail';
+import { AuthEmail } from '../../emails/AuthEmail';
 
 export class AuthController {
     static createAccount = async (req: Request, res: Response) =>{
