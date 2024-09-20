@@ -6,6 +6,7 @@ import customerRoutes from './routes/customerRoutes';
 import countryRoutes from './routes/counrtyRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import socialeventRoutes from './routes/socialEventRoutes';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
@@ -25,5 +26,6 @@ app.use('/api/customers',customerRoutes);
 app.use('/api/countries',countryRoutes);
 app.use('/api/categories',categoryRoutes);
 app.use('/api/socialevents',socialeventRoutes);
+app.use('/api/auth',authRoutes);
 
 export default app;

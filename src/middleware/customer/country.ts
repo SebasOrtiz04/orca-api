@@ -9,6 +9,7 @@ declare global {
         }
     }
 }
+
 export async function validateProjectExists(req:Request,res:Response,next:NextFunction){
     const {countryId} = req.params
     try{
