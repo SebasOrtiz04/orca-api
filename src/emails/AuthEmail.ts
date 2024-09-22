@@ -11,7 +11,7 @@ export class AuthEmail {
 
         try{
             const info = await transporter.sendMail({
-                from:'ventas@salonorca.com',
+                from:'Salón Jardín Orca <ventas@salonorca.com>',
                 to: user.email,
                 subject: 'Salón Jardín - Confirma tu cuenta',
                 text: 'UpTask - Confirma tu cuenta',
