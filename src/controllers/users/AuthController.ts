@@ -2,10 +2,10 @@ import type {Request, Response} from 'express'
 import User from '../../models/users/User';
 import { generateToken, hashPassword } from '../../utils/auth';
 import Token from '../../models/users/Token';
-import { transporter } from '../../config/nodemailer';
 import { AuthEmail } from '../../emails/AuthEmail';
 
 export class AuthController {
+
     static createAccount = async (req: Request, res: Response) =>{
         try {
             const {password} = req.body;
@@ -35,4 +35,31 @@ export class AuthController {
             res.status(500).send('Error en el servidor');            
         }
     }
+
+    static confirmAccount = async (req: Request, res: Response) =>{
+        try {
+            const token = req.token
+
+            const user = await User.findById(token.user)
+            user.confirmed = true
+
+            await Promise.allSettled([user.save(),token.deleteOne()]);
+
+            res.status(201).send('Cuenta confirmada correctamente');
+        } catch (error) { 
+
+            res.status(500).send('Error en el servidor');            
+        }
+    }
+
+    static login = async (req: Request, res: Response) =>{
+        try {
+
+            res.status(201).send('Autenticado');
+        } catch (error) { 
+
+            res.status(500).send('Error en el servidor');            
+        }
+    }
+    
 }
