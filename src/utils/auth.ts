@@ -6,3 +6,7 @@ export const hashPassword = async (password : string) => {
 }
 
 export const generateToken = () => Math.floor(100000 +  Math.random() * 900000 ).toString();
+
+export const checkPassword = async (requestPassoprd:string,userPassword: string) =>{
+    return await bcrypt.compare(requestPassoprd,userPassword);
+}
