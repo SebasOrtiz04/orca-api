@@ -14,6 +14,17 @@ declare global {
     }
 }
 
+
+export async function autenticate(req:Request,res:Response,next:NextFunction){
+    const {headers} = req;
+    try {
+        console.log(headers.authorization)
+        next();
+    } catch (error) {
+        res.status(500).json({error:'Error en el servidor'})
+    }
+}
+
 export const validateCreateAccount = [
     body('firstName').notEmpty().withMessage('El nombre es bligatorio'),
     body('lastName').notEmpty().withMessage('El apellido paterno es bligatorio'),
@@ -132,3 +143,4 @@ export async function validatePassword(req:Request,res:Response,next:NextFunctio
         res.status(500).json({error:'Error en el servidor'})
     }   
 }
+
