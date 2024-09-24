@@ -3,6 +3,7 @@ import User from '../../models/users/User';
 import { generateToken, hashPassword } from '../../utils/auth';
 import Token from '../../models/users/Token';
 import { AuthEmail } from '../../emails/AuthEmail';
+import { generateJWT } from '../../utils/jwt';
 
 export class AuthController {
 
@@ -45,7 +46,9 @@ export class AuthController {
 
             await Promise.allSettled([user.save(),token.deleteOne()]);
 
-            res.status(201).send('Cuenta confirmada correctamente');
+            const tokenJWT = generateJWT({id:user.id});
+
+            res.status(200).send(tokenJWT);
         } catch (error) { 
 
             res.status(500).send('Error en el servidor');            
@@ -53,6 +56,16 @@ export class AuthController {
     }
 
     static login = async (req: Request, res: Response) =>{
+        try {
+
+            res.status(201).send('Autenticado');
+        } catch (error) { 
+
+            res.status(500).send('Error en el servidor');            
+        }
+    }
+
+    static getAuthUser = async (req: Request, res: Response) =>{
         try {
 
             res.status(201).send('Autenticado');
