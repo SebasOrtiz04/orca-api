@@ -50,7 +50,7 @@ export class AuthController {
 
             res.status(200).send(tokenJWT);
         } catch (error) { 
-
+            console.log(error)
             res.status(500).send('Error en el servidor');            
         }
     }
