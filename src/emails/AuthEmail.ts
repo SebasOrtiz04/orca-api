@@ -22,10 +22,11 @@ export class AuthEmail {
                     <div style='padding:40px; color:#151f28; background-color:#f2ebda ; font-size:18px'>
                         <p  style='font-size:36px;' >Salón Jardín Orca</p>
                         <p> Hola <span style='text-transform: capitalize; font-size:28px'>${user.name}</span> , has creado tu cuenta en el portal de Salón Jardín Orca, ya casi está todo listo, solo debes confirmar tu cuenta.</p>
-                        <a  href="${process.env.CLIENT_BASE_URL}/auth/confirm-account" style='text-decoration:none; color:#151f28 ; font-size:28px'>
+                        <p style='font-size:24px;' > Copía este código: <b>${user.token}</b></p>
+                        <p> Copía y pegalo en el siguiente link:</p>
+                        <a  href="${process.env.CLIENT_BASE_URL}/auth/confirm-account" style=' color:#151f28 ; font-size:28px'>
                             Haz click en este enlace para confirmar tu cuenta
                         </a>
-                        <p> E ingresa el código: <b>${user.token}</b></p>
                         <p> Este token expira en <b>5 minutos</b></p>
                     </div>
                 `
