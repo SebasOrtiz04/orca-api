@@ -4,6 +4,7 @@ import User, { IUser } from "../models/users/User";
 import Token, { IToken } from "../models/users/Token";
 import { checkPassword, generateToken } from "../utils/auth";
 import { AuthEmail } from "../emails/AuthEmail";
+import jwt, { decode } from 'jsonwebtoken';
 
 declare global {
     namespace Express{
@@ -18,9 +19,29 @@ declare global {
 export async function autenticate(req:Request,res:Response,next:NextFunction){
     const {headers} = req;
     try {
-        console.log(headers.authorization)
+        const bearer =  headers.authorization
+
+        if(!bearer) {
+            const error = new Error('No Autorizado')
+            return res.status(401).json({error: error.message})
+        }
+        
+        const token = bearer.split(' ')[1]
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+        let user = null
+
+        if(typeof decoded === 'object' && decoded.id)
+            user = await User.findById(decoded.id).select('_id firstName lastName email admin')
+        
+        if(!user) {
+            const error = new Error('Token no válido')
+            return res.status(401).json({error: error.message})
+        }
+        req.user = user
         next();
     } catch (error) {
+        console.log(error)
         res.status(500).json({error:'Error en el servidor'})
     }
 }

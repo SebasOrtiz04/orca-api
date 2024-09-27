@@ -57,22 +57,52 @@ export class AuthController {
 
     static login = async (req: Request, res: Response) =>{
         try {
-
-            res.status(201).send('Autenticado');
+            const {user} = req
+            const tokenJWT = generateJWT({id:user.id});
+            res.status(200).json({token:tokenJWT, user:user});
         } catch (error) { 
-
             res.status(500).send('Error en el servidor');            
         }
     }
 
     static getAuthUser = async (req: Request, res: Response) =>{
         try {
-
-            res.status(201).send('Autenticado');
+            res.status(200).json(req.user);
         } catch (error) { 
 
             res.status(500).send('Error en el servidor');            
         }
     }
+
+    static createTokenconfirmation = async (req: Request, res: Response) =>{
+        try {
+            const {password} = req.body;
+            const user = new User(req.body);
+            
+            // Hash Password
+            user.password = await hashPassword(password);
+
+
+            //Generar token
+            const token = new Token();
+            token.token = generateToken();
+            token.user = user.id;
+
+            //Enviar email
+            AuthEmail.sendConfirmationEmail({
+                email: user.email,
+                name: user.firstName,
+                token: token.token
+            })
+
+            await Promise.allSettled([user.save(),token.save()])
+
+            res.status(201).send('Cuenta creada, revisa tu email para confirmarla');
+        } catch (error) { 
+            console.log(error)
+            res.status(500).send('Error en el servidor');            
+        }
+    }
+
     
 }

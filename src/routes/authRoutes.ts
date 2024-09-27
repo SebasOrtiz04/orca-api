@@ -19,6 +19,12 @@ router.post('/confirm-account',
     AuthController.confirmAccount
 )
 
+router.post('/resend-code',
+    validateUser,
+    validateUserConfirmed,
+    handleInputErrors
+)
+
 router.post('/login',
     validateLogin,
     validateUser,
