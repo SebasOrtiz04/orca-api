@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { AuthController } from '../controllers/users/AuthController';
-import { autenticate, validateConfirmAccount, validateCreateAccount, validateEmail, validateLogin, validatePassword, validateToken, validateUser, validateUserConfirmed } from '../middleware/auth';
+import { autenticate, validateConfirmAccount, validateCreateAccount, validateEmail, validateLogin, validatePassword, validateToken, validateUser, validateUserConfirmed, validateUserMisignConfirm } from '../middleware/auth';
 import { handleInputErrors } from '../middleware/validation';
 
 const router = Router();
@@ -21,8 +21,9 @@ router.post('/confirm-account',
 
 router.post('/resend-code',
     validateUser,
-    validateUserConfirmed,
-    handleInputErrors
+    validateUserMisignConfirm,
+    handleInputErrors,
+    AuthController.resendCode
 )
 
 router.post('/login',
