@@ -121,6 +121,23 @@ export async function validateUser(req:Request,res:Response,next:NextFunction){
     }   
 }
 
+export async function validateUserMisignConfirm(req:Request,res:Response,next:NextFunction){
+    const {user} = req
+    try{
+        if(!user) {
+            const error = Error('Usuario no válido')
+            return res.status(404).json({error: error.message})
+        }
+        if(user.confirmed) {
+            const error = Error('Esta cuenta ya está confirmada')
+            return res.status(409).json({error: error.message})
+        }
+        next()
+    } catch(error){
+        res.status(500).json({error:'Error en el servidor'})
+    }   
+}
+
 export async function validateUserConfirmed(req:Request,res:Response,next:NextFunction){
     const {user} = req
     try{

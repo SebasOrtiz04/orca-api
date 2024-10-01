@@ -65,6 +65,28 @@ export class AuthController {
         }
     }
 
+    static resendCode = async (req: Request, res: Response) =>{
+        try {
+            const {user} = req
+            
+            const token = new Token();
+            token.user = user.id;
+            token.token = generateToken();
+            await token.save()
+
+            //Enviar email
+            AuthEmail.sendConfirmationEmail({
+                email: user.email,
+                name: user.firstName,
+                token: token.token
+            })
+
+            res.status(200).send('Código enviado correctamente');
+        } catch (error) { 
+            res.status(500).send('Error en el servidor');            
+        }
+    }
+
     static getAuthUser = async (req: Request, res: Response) =>{
         try {
             res.status(200).json(req.user);
