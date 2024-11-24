@@ -6,6 +6,7 @@ import { checkPassword, generateToken } from "../utils/auth";
 import { AuthEmail } from "../emails/AuthEmail";
 import jwt, { decode } from 'jsonwebtoken';
 
+
 declare global {
     namespace Express{
         interface Request{
@@ -182,3 +183,8 @@ export async function validatePassword(req:Request,res:Response,next:NextFunctio
     }   
 }
 
+export const validateRecoveryPassword = [
+    body('email')        
+        .notEmpty().withMessage('El email es obligatorio')
+        .isEmail().withMessage('Debe ser un email válido')
+]
