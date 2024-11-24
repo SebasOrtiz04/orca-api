@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { AuthController } from '../controllers/users/AuthController';
-import { autenticate, validateConfirmAccount, validateCreateAccount, validateEmail, validateLogin, validatePassword, validateToken, validateUser, validateUserConfirmed, validateUserMisignConfirm } from '../middleware/auth';
+import { autenticate, validateConfirmAccount, validateCreateAccount, validateEmail, validateLogin, validatePassword, validateRecoveryPassword, validateToken, validateUser, validateUserConfirmed, validateUserMisignConfirm } from '../middleware/auth';
 import { handleInputErrors } from '../middleware/validation';
 
 const router = Router();
@@ -38,6 +38,13 @@ router.post('/login',
 router.get('/user',
     autenticate,
     AuthController.getAuthUser
+)
+
+router.post('/recovery-password',
+    validateRecoveryPassword,
+    handleInputErrors,
+    validateEmail,
+    AuthController.recoveryPassword
 )
 
 export default router;
