@@ -1,6 +1,16 @@
 // middlewares/imageUploadMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 
+import { Multer } from 'multer';
+
+declare global {
+    namespace Express {
+        interface Request {
+            file?: Multer.File; // Puede ser undefined si no hay archivo
+        }
+    }
+}
+
 // Filtrar solo imágenes
 export async function fileFilter(req: Request, res : Response,next:NextFunction){
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
