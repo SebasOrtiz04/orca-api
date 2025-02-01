@@ -1,5 +1,6 @@
 import type {Request, Response,NextFunction} from 'express'
-import Country, { ICountry } from '../models/customer/Country';
+import Country, { ICountry } from '../../models/customer/Country';
+
 
 declare global {
     namespace Express{
@@ -8,6 +9,7 @@ declare global {
         }
     }
 }
+
 export async function validateProjectExists(req:Request,res:Response,next:NextFunction){
     const {countryId} = req.params
     try{
