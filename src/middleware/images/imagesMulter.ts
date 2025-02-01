@@ -6,7 +6,7 @@ import { Multer } from 'multer';
 declare global {
     namespace Express {
         interface Request {
-            file?: Express.Multer.File; // Puede ser undefined si no hay archivo
+            file?: Multer.File; // Puede ser undefined si no hay archivo
         }
     }
 }
