@@ -14,15 +14,21 @@ export class AuthEmail {
                 from:'Salón Jardín Orca <ventas@salonorca.com>',
                 to: user.email,
                 subject: 'Salón Jardín - Confirma tu cuenta',
-                text: 'UpTask - Confirma tu cuenta',
                 html:`
-                    <p>
-                        Hola ${user.name}, has creado tu cuenta en el portal de Salón Jardín Orca, ya casi está todo listo, solo debes confirmar tu cuenta
-                    </p>
-                    <p> Visita el siguiente enlace:</p>
-                    <a href="">Confirmar cuenta</a>
-                    <p> E ingresa el código: <b>${user.token}</b></p>
-                    <p> Este token expira en 10 minutos</p>
+
+                    <div style='background-color:#151f28;'>
+                        <img style='margin:auto;' src='https://orca-chi.vercel.app/_next/image?url=%2Fimg%2FLogos%2Forca2.png&w=96&q=75' alt='Logo Salón'/>
+                    </div>
+                    <div style='padding:40px; color:#151f28; background-color:#f2ebda ; font-size:18px'>
+                        <p  style='font-size:36px;' >Salón Jardín Orca</p>
+                        <p> Hola <span style='text-transform: capitalize; font-size:28px'>${user.name}</span> , has creado tu cuenta en el portal de Salón Jardín Orca, ya casi está todo listo, solo debes confirmar tu cuenta.</p>
+                        <p style='font-size:24px;' > Copía este código: <b>${user.token}</b></p>
+                        <p> Copía y pegalo en el siguiente link:</p>
+                        <a  href="${process.env.CLIENT_BASE_URL}/auth/confirm-account" style=' color:#151f28 ; font-size:28px'>
+                            Haz click en este enlace para confirmar tu cuenta
+                        </a>
+                        <p> Este token expira en <b>5 minutos</b></p>
+                    </div>
                 `
             })
     

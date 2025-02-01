@@ -4,6 +4,8 @@ import User, { IUser } from "../models/users/User";
 import Token, { IToken } from "../models/users/Token";
 import { checkPassword, generateToken } from "../utils/auth";
 import { AuthEmail } from "../emails/AuthEmail";
+import jwt, { decode } from 'jsonwebtoken';
+
 
 declare global {
     namespace Express{
@@ -11,6 +13,37 @@ declare global {
             token:IToken
             user:IUser
         }
+    }
+}
+
+
+export async function autenticate(req:Request,res:Response,next:NextFunction){
+    const {headers} = req;
+    try {
+        const bearer =  headers.authorization
+
+        if(!bearer) {
+            const error = new Error('No Autorizado')
+            return res.status(401).json({error: error.message})
+        }
+        
+        const token = bearer.split(' ')[1]
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+        let user = null
+
+        if(typeof decoded === 'object' && decoded.id)
+            user = await User.findById(decoded.id).select('_id firstName lastName email admin')
+        
+        if(!user) {
+            const error = new Error('Token no válido')
+            return res.status(401).json({error: error.message})
+        }
+        req.user = user
+        next();
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error:'Error en el servidor'})
     }
 }
 
@@ -89,6 +122,23 @@ export async function validateUser(req:Request,res:Response,next:NextFunction){
     }   
 }
 
+export async function validateUserMisignConfirm(req:Request,res:Response,next:NextFunction){
+    const {user} = req
+    try{
+        if(!user) {
+            const error = Error('Usuario no válido')
+            return res.status(404).json({error: error.message})
+        }
+        if(user.confirmed) {
+            const error = Error('Esta cuenta ya está confirmada')
+            return res.status(409).json({error: error.message})
+        }
+        next()
+    } catch(error){
+        res.status(500).json({error:'Error en el servidor'})
+    }   
+}
+
 export async function validateUserConfirmed(req:Request,res:Response,next:NextFunction){
     const {user} = req
     try{
@@ -132,3 +182,9 @@ export async function validatePassword(req:Request,res:Response,next:NextFunctio
         res.status(500).json({error:'Error en el servidor'})
     }   
 }
+
+export const validateRecoveryPassword = [
+    body('email')        
+        .notEmpty().withMessage('El email es obligatorio')
+        .isEmail().withMessage('Debe ser un email válido')
+]
